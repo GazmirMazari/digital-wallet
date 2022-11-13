@@ -1,10 +1,9 @@
-package main
+package block
 
 import (
 	"crypto/sha256"
 	"encoding/json"
 	"fmt"
-	"log"
 	"strings"
 	"time"
 )
@@ -147,26 +146,4 @@ func (t *Transaction) MarshalJSON() ([]byte, error) {
 		Recipient: t.recipientBlockchainAddress,
 		Value:     t.value,
 	})
-}
-
-func init() {
-	log.SetPrefix("Blockchain: ")
-}
-
-func main() {
-	blockChain := NewBlockchain()
-	blockChain.Print()
-
-	blockChain.AddTransaction("A", "B", 1.0)
-	previousHash := blockChain.LastBlock().Hash()
-	nonce := blockChain.ProofOfWork()
-	blockChain.CreateBlock(nonce, previousHash)
-	blockChain.Print()
-
-	blockChain.AddTransaction("C", "D", 2.0)
-	blockChain.AddTransaction("X", "Y", 3.0)
-	previousHash = blockChain.LastBlock().Hash()
-	nonce = blockChain.ProofOfWork()
-	blockChain.CreateBlock(nonce, previousHash)
-	blockChain.Print()
 }
